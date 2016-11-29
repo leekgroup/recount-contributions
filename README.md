@@ -12,31 +12,39 @@
 
 # Overview
 
-If you are interested in contributing your data to [recount](https://jhubiostatistics.shinyapps.io/recount/) you will need to modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new). The form will ask you to submit some information describing your data and information on how we can access the required files. We'll respond as soon as we can and add your data to [recount](https://jhubiostatistics.shinyapps.io/recount/). 
+If you are interested in contributing your *human RNA-seq data sequenced on the Illumina platform* to [recount](https://jhubiostatistics.shinyapps.io/recount/) you will need to modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new), which has you describe your data and tell us how to access the required files. We'll respond as soon as we can and add your data to [recount](https://jhubiostatistics.shinyapps.io/recount/).
 
 # Generating recount-like files
 
-In order for us to add your files to [recount](https://jhubiostatistics.shinyapps.io/recount/) we first ask you to generate files similar to the ones we already provide. This means that you have to run [Rail-RNA](rail.bio) on your RNA-seq data against the human reference genome hg38. [Rail-RNA](rail.bio) will generate a set of [deliverable files](http://docs.rail.bio/deliverables/) and for [recount](https://jhubiostatistics.shinyapps.io/recount/) we need the cross-sample tables, coverage vectors in bigwig files and the junctions files. Once you have run [Rail-RNA](rail.bio) we need you to run [this set of R scripts](https://github.com/leekgroup/recount-website/tree/master/recount-prep) that create the remaining files we need. Once you have generated the files, you might want to add more phenotype information for your samples. Then you can modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new) and we'll take it from there.
+Before we can add your RNA-seq data to [recount](https://jhubiostatistics.shinyapps.io/recount/), you'll need to generate files similar to the ones we already provide for each project on SRA. This means you'll have to run [Rail-RNA](rail.bio) on your dataset against the human reference genome hg38. [Rail-RNA](rail.bio) will generate a set of [deliverables](http://docs.rail.bio/deliverables/). For [recount](https://jhubiostatistics.shinyapps.io/recount/), we'll need the cross-sample tables, coverage vectors in bigWig format, and the exon-exon junction files. After the [Rail-RNA](rail.bio) run is complete, you'll need you to execute [this set of R scripts](https://github.com/leekgroup/recount-website/tree/master/recount-prep) that create the remaining files we need. Once they are generated, you may want to add more phenotype information for your samples. Then you can modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new), and we'll take it from there. Details foll
 
-# Run [Rail-RNA](rail.bio)
+## Run [Rail-RNA](rail.bio)
 
-The first step involves running [Rail-RNA](rail.bio) with your data. You will find more information about how to do so at the [Rail-RNA documentation website](http://docs.rail.bio/). You can run it on the cloud using [Amazon Web Services](http://aws.amazon.com/) [Elastic MapReduce](http://aws.amazon.com/elasticmapreduce/). Note that it's crucial that the [Rail-RNA deliverables](http://docs.rail.bio/deliverables/) include the:
+The first step involves running [Rail-RNA](rail.bio) with your data. You will find more information about how to do this at the [Rail-RNA documentation website](http://docs.rail.bio/). You can run it on the cloud using [Amazon Web Services](http://aws.amazon.com/) [Elastic MapReduce](http://aws.amazon.com/elasticmapreduce/). Note that it's crucial that the [Rail-RNA deliverables](http://docs.rail.bio/deliverables/) include:
 
-* cross-sample tables: `tsv`,
-* coverage vectors: `bw`,
-* junction files: `jx`.
+* cross-sample tables: `tsv`
+* coverage vectors: `bw`
+* junction files: `jx`
 
-For details see the `--deliverables` argument.
+and also that reads are aligned to the _hg38_ assembly. If you perform the alignment locally, please run [Rail-RNA](rail.bio) using the Bowtie indexes from the [_hg38_ Illumina iGenome](ftp://igenome:G3nom3s4u@ussd-ftp.illumina.com/Homo_sapiens/UCSC/hg38/Homo_sapiens_UCSC_hg38.tar.gz). If you perform the alignment using [Amazon Web Services](http://aws.amazon.com/) [Elastic MapReduce](http://aws.amazon.com/elasticmapreduce/), make sure to use the command-line parameter `-a hg38`. So in `local` mode, a single command to preprocess and align your RNA-seq data should look like this:
+
+        rail-rna go local -x /path/to/hg38/Bowtie/basename /path/to/hg38/Bowtie2/basename \
+        -m /path/to/Rail-RNA/manifest/file -o /path/to/output/dir -d tsv,bw,jx
+
+while in `elastic` (cloud) mode, the command should look like this:
+
+        rail-rna go elastic -a hg38 -m /path/to/Rail-RNA/manifest/file \
+        -o s3://bucket-name/output-dir
 
 # Create recount objects
 
-Once you have the output from [Rail-RNA](rail.bio) you will need to run the [recount-prep](https://github.com/leekgroup/recount-website/tree/master/recount-prep) R scripts. You will most likely need to download the output from [Rail-RNA](rail.bio) to your local system. In order to run these R scripts, you first need to install some dependencies in your system. These are:
+Once you have the output from [Rail-RNA](rail.bio) you will need to run the [recount-prep](https://github.com/leekgroup/recount-website/tree/master/recount-prep) R scripts. If you've run Rail-RNA in the cloud, you'll have to download its output to your local system. To run the R scripts, you'll first need to install some dependencies. These are:
 
-* [bwtool](https://github.com/CRG-Barcelona/bwtool)
-* [WiggleTools](https://github.com/Ensembl/WiggleTools)
+* [bwtool v1.0](https://github.com/CRG-Barcelona/bwtool)
+* [WiggleTools v1.1](https://github.com/Ensembl/WiggleTools)
 * [wigToBigWig](http://hgdownload.cse.ucsc.edu/admin/exe/)
 
-as well as the following R packages that can be installed with the following R command:
+as well as the following R/[Bioconductor](https://www.bioconductor.org/) packages that can be installed with the following R command:
 
 ```
 source("https://bioconductor.org/biocLite.R")
@@ -44,13 +52,18 @@ biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment'
     'Hmisc'))
 ```
 
-First run [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_setup.R) which downloads some files that will be needed in the other scripts. Then run [prep_sample.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_sample.R) for each sample in your data set. You can run this step in parallel if you want to. Then run [prep_merge.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_merge.R) to create the final recount objects. A bash script example that runs all 3 scripts is available as [example_prep.sh](https://github.com/leekgroup/recount-website/blob/master/recount-prep/example_prep.sh).
+Now run [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_setup.R) which downloads some files that will be needed in the other scripts. Next, run [prep_sample.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_sample.R) for each sample in your data set. You can perform this step in parallel if you like. Finally, run [prep_merge.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_merge.R) to create the final recount objects. A bash script example that runs all three scripts is available as [example_prep.sh](https://github.com/leekgroup/recount-website/blob/master/recount-prep/example_prep.sh). If you choose to model your script after this one, make sure to change the variable definitions made in it as follows.
 
-If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly. For example, adding the tissue information, cell line, age, sex and other demographic variables can be of great use to other researchers.
+        DATADIR: (local) path to Rail-RNA output directory
+        BWTOOL: path to bwtool v1.0 executable
+        WIGGLE: path to wiggletools v1.1 executable
+        MANIFEST: path to Rail-RNA manifest file that was used in the `rail-rna` command invocation
+
+If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly.
 
 # Submit files
 
-Once you have created all the recount objects please modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new). In it we will ask you for information on how to contact you, information about your data set, and you will need to provide us with instructions on how to access the recount-like files you created. We will download your files, check them and once we approve them, we'll upload them to [recount](https://jhubiostatistics.shinyapps.io/recount/). The files we'll need access to are:
+Once you have created all the recount objects, please modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new). In it, we ask you for information on how to contact you, information about your dataset, and  instructions on how to access the recount files you created. We will download and check your files. If they're approved, we'll upload them to [recount](https://jhubiostatistics.shinyapps.io/recount/). The files we'll need access to are:
 
 * The bigwig coverage files for each sample created by [Rail-RNA](rail.bio): `coverage_bigwigs/*.bw`
 * The junction files created by [Rail-RNA](rail.bio)
@@ -63,7 +76,6 @@ Once you have created all the recount objects please modify and submit [this for
 * Log files created by the R scripts for reproducibility purposes
 
 The RangedSummarizedExperiment objects contain the sample metadata that we'll use. You should make sure that all three objects have the same metadata.
-
 
 # Summary
 
