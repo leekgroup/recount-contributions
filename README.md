@@ -2,17 +2,21 @@
 # Table of contents
 
 - [Overview](#overview)
+- [Getting help](#getting-help)
 - [Generating recount-like files](#generating-recount-like-files)
 - [Run Rail-RNA](#run-rail-rna)
 - [Create recount objects](#create-recount-objects)
 - [Submit files](#submit-files)
 - [Summary](#summary)
-- [Help](#help)
 
 
 # Overview
 
 If you are interested in contributing your *human RNA-seq data sequenced on the Illumina platform* to [recount](https://jhubiostatistics.shinyapps.io/recount/) you will need to modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new), which has you describe your data and tell us how to access the required files. We'll respond as soon as we can and add your data to [recount](https://jhubiostatistics.shinyapps.io/recount/).
+
+# Getting help
+
+If you're confused by any of the instructions below or are having trouble with your submission, feel free to chat with us in the [recount contributions Gitter](https://gitter.im/recount-contributions) or [create an issue](https://github.com/leekgroup/recount-contributions/issues).
 
 # Generating recount-like files
 
@@ -89,8 +93,3 @@ The RangedSummarizedExperiment objects contain the sample metadata that we'll us
 * Optionally add more metadata to your phenotype information.
 * Make the files accessible to us.
 * Modify and submit [this form](https://github.com/leekgroup/recount-contributions/issues/new).
-
-# Help
-
-If you need help with the submission process please get in touch by posting your question as a new [issue](https://github.com/leekgroup/recount-contributions/issues). Thank you!
-
