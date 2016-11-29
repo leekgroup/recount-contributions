@@ -67,7 +67,7 @@ The RangedSummarizedExperiment objects contain the sample metadata that we'll us
 
 # Summary
 
-* Run [Rail-RNA](rail.bio) on your data against the human hg38 genome reference
+* Run [Rail-RNA](rail.bio) on your data against the human hg38 genome reference.
 * Install dependencies for the recount R scripts.
 * Download the deliverables from [Rail-RNA](rail.bio) using the same file structure.
 * Run the [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_setup.R) R script.
