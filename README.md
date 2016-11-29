@@ -46,7 +46,7 @@ Once you have the output from [Rail-RNA](rail.bio) you will need to run the [rec
 
 as well as the following R/[Bioconductor](https://www.bioconductor.org/) packages that can be installed with the following R command:
 
-```
+```R
 source("https://bioconductor.org/biocLite.R")
 biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment'
     'Hmisc'))
