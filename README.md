@@ -16,7 +16,7 @@ If you are interested in contributing your *human RNA-seq data sequenced on the 
 
 # Getting help
 
-If you're confused by any of the instructions below or are having trouble with your submission, feel free to chat with us in the [recount contributions Gitter](https://gitter.im/recount-contributions) or [create an issue](https://github.com/leekgroup/recount-contributions/issues).
+If you're confused by any of the instructions below or are having trouble with your submission, feel free to chat with us in the [recount contributions Gitter](https://gitter.im/recount-contributions/Lobby) or [create an issue](https://github.com/leekgroup/recount-contributions/issues).
 
 # Generating recount-like files
 
