@@ -33,8 +33,7 @@ and also that reads are aligned to the _hg38_ assembly. If you perform the align
 
 while in `elastic` (cloud) mode, the command should look like this:
 
-        rail-rna go elastic -a hg38 -m /path/to/Rail-RNA/manifest/file \
-        -o s3://bucket-name/output-dir
+        rail-rna go elastic -a hg38 -m /path/to/Rail-RNA/manifest/file -o s3://bucket-name/output-dir
 
 # Create recount objects
 
