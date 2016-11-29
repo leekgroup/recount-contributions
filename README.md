@@ -46,7 +46,7 @@ biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment'
 
 First run [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_setup.R) which downloads some files that will be needed in the other scripts. Then run [prep_sample.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_sample.R) for each sample in your data set. You can run this step in parallel if you want to. Then run [prep_merge.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_merge.R) to create the final recount objects. A bash script example that runs all 3 scripts is available as [example_prep.sh](https://github.com/leekgroup/recount-website/blob/master/recount-prep/example_prep.sh).
 
-If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly.
+If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly. For example, adding the tissue information, cell line, age, sex and other demographic variables can be of great use to other researchers.
 
 # Submit files
 
