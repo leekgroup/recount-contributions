@@ -59,7 +59,7 @@ Now run [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/
         WIGGLE: path to wiggletools v1.1 executable
         MANIFEST: path to Rail-RNA manifest file that was used in the `rail-rna` command invocation
 
-If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly.
+If you have more metadata (phenotype information for your samples) than the one included by default in the recount objects, you can add it to the RangedSummarizedExperiment objects once they are created or modify the preparation R scripts accordingly. For example, adding the tissue information, cell line, age, sex and other demographic variables can be of great use to other researchers.
 
 # Submit files
 
