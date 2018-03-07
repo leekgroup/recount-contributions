@@ -52,7 +52,7 @@ as well as the following R/[Bioconductor](https://www.bioconductor.org/) package
 
 ```R
 source("https://bioconductor.org/biocLite.R")
-biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment'
+biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment',
     'Hmisc'))
 ```
 
