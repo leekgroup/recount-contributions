@@ -51,9 +51,9 @@ Once you have the output from [Rail-RNA](rail.bio) you will need to run the [rec
 as well as the following R/[Bioconductor](https://www.bioconductor.org/) packages that can be installed with the following R command:
 
 ```R
-source("https://bioconductor.org/biocLite.R")
-biocLite(c('recount', 'devtools', 'getopt', 'downloader', 'SummarizedExperiment',
-    'Hmisc'))
+install.packages("BiocManager")
+BiocManager::install(c('recount', 'devtools', 'getopt', 'downloader',
+    'SummarizedExperiment', 'Hmisc'))
 ```
 
 Now run [prep_setup.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_setup.R) which downloads some files that will be needed in the other scripts. Next, run [prep_sample.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_sample.R) for each sample in your data set. You can perform this step in parallel if you like. Finally, run [prep_merge.R](https://github.com/leekgroup/recount-website/blob/master/recount-prep/prep_merge.R) to create the final recount2 objects. A bash script example that runs all three scripts is available as [example_prep.sh](https://github.com/leekgroup/recount-website/blob/master/recount-prep/example_prep.sh). If you choose to model your script after this one, make sure to change the variable definitions made in it as follows.
